@@ -36,13 +36,24 @@ export default function Header(props: {
 
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
       props.setWeatherData({
         description: data.weather[0].description,
         image: data.weather[0].icon,
         temp: Math.floor(data.main.temp * 100 - 27315) / 100,
         wind: data.wind.speed,
       });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
+    getAdditionalLocations();
+  }, []);
+
+  async function getAdditionalLocations() {
+    try {
+      const response = await fetch("../data/locations.json");
+      const data = await response.json();
     } catch (error) {
       console.error(error);
     }
@@ -55,6 +66,7 @@ export default function Header(props: {
         <button onClick={handleBerlin}>Berlin</button>
         <button onClick={handleKoeln}>Köln</button>
         <button onClick={handleAustralien}>Australien</button>
+        import ;<button>+</button>
       </nav>
     </header>
   );
