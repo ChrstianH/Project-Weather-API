@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Location } from "../App";
 
 const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 const API_KEY = "7abf028322cf0f7a9233e375a3634ca4";
@@ -10,6 +11,9 @@ export default function Header(props: {
     temp: number;
     wind: number;
   }) => void;
+  setAddLocation: (arg0: boolean) => void;
+  setLocations: (arg0: Location[]) => void;
+  locations: Location[];
 }) {
   const [url, setUrl] = useState("");
 
@@ -46,17 +50,39 @@ export default function Header(props: {
       console.error(error);
     }
   }
+
   useEffect(() => {
     getAdditionalLocations();
   }, []);
 
   async function getAdditionalLocations() {
     try {
-      const response = await fetch("../data/locations.json");
-      const data = await response.json();
+      const jsonData = localStorage.getItem("locations") || "";
+      console.log(jsonData);
+      const data: Location[] = JSON.parse(jsonData);
+      props.setLocations(data);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  function clickAddLoc(event: React.MouseEvent<HTMLButtonElement>) {
+    setUrl(
+      `${BASE_URL}?q=${
+        (event.target as HTMLButtonElement).textContent
+      }&appid=${API_KEY}`
+    );
+    getWeatherData();
+  }
+
+  function handleDoubleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    const location = (event.target as HTMLButtonElement).textContent;
+    let newLocations: Location[] = [...props.locations];
+    newLocations = newLocations.filter(
+      (filterLocation) => filterLocation.name !== location
+    );
+    localStorage.setItem("locations", JSON.stringify(newLocations));
+    props.setLocations(newLocations);
   }
 
   return (
@@ -66,7 +92,12 @@ export default function Header(props: {
         <button onClick={handleBerlin}>Berlin</button>
         <button onClick={handleKoeln}>Köln</button>
         <button onClick={handleAustralien}>Australien</button>
-        import ;<button>+</button>
+        {props.locations.map((location) => (
+          <button onDoubleClick={handleDoubleClick} onClick={clickAddLoc}>
+            {location.name}
+          </button>
+        ))}
+        <button onClick={() => props.setAddLocation(true)}>+</button>
       </nav>
     </header>
   );

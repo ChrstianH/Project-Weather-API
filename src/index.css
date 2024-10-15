@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: black;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -29,11 +29,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   justify-content: center;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 1.05rem;
 }
 
 nav {
@@ -44,9 +40,13 @@ nav {
 main {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 40px;
   align-items: center;
   margin: 24px 0;
+  height: 322px;
+  background-color: deepskyblue;
+  justify-content: center;
+  border-radius: 8px;
 }
 
 button {
@@ -56,27 +56,11 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #2a2a2a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: white;
 }
 button:hover {
   border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
